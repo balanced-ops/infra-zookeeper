@@ -75,7 +75,7 @@ i_launchconf = atlas.instance_launchconf(
 scaling_group = atlas.instance_scalegrp(
     template,
     'ZK',
-    LaunchConfigurationName=Ref(launchconf),
+    LaunchConfigurationName=Ref(i_launchconf),
     MinSize=Ref('MinSize'),
     MaxSize=Ref('MaxSize'),
     DesiredCapacity=Ref('DesiredCapacity'),
