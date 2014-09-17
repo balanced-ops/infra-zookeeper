@@ -16,6 +16,8 @@ atlas.instance_params(
     iam_default='zookeeper',
 )
 
+atlas.scaling_params(template)
+
 atlas.mappings(
     template,
     accounts=[atlas.poundpay],
@@ -33,7 +35,7 @@ zk_secgrp = atlas.instance_secgrp(
     SecurityGroupIngress=[
 ## not sure if it will work properly or not!    
     	ec2.SecurityGroupIngress(
-    		"SecurityGroupIngress1",
+    		"ZKFollowers",
 	    	GroupId=Ref(zk_secgrp),
     		SourceSecurityGroupId=Ref(zk_secgrp),
     		FromPort="2888",
@@ -41,7 +43,7 @@ zk_secgrp = atlas.instance_secgrp(
     		IpProtocol="tcp",
 		),
 		ec2.SecurityGroupIngress(
-    		"SecurityGroupIngress2",
+    		"ZKServers",
 	    	GroupId=Ref(zk_secgrp),
 		    SourceSecurityGroupId=Ref(zk_secgrp),
 		    FromPort="3888",
@@ -49,7 +51,7 @@ zk_secgrp = atlas.instance_secgrp(
 		    IpProtocol="tcp",
 		),
 		ec2.SecurityGroupIngress(
-		    "SecurityGroupIngress3",
+		    "ZKClients",
     		GroupId=Ref(zk_secgrp),
     		SourceSecurityGroupId=Ref(kafka_secgrp),
     		FromPort="2181",
@@ -63,13 +65,21 @@ i_meta_data = {}
 atlas.cfn_auth_metadata(i_meta_data)
 atlas.cfn_init_metadata(i_meta_data)
 
-for i in range(1,4):
-	i_launchconf = atlas.instance_launchconf(
-    	template,
-    	"ZOOKEEPER-"+str(i),
-    	Metadata=i_meta_data,
-    	SecurityGroups=[Ref(zk_secgrp)],
-	)
- 
+i_launchconf = atlas.instance_launchconf(
+   	template,
+   	"ZK",
+   	Metadata=i_meta_data,
+   	SecurityGroups=[Ref(zk_secgrp)],
+)
+
+scaling_group = atlas.instance_scalegrp(
+    template,
+    'ZK',
+    LaunchConfigurationName=Ref(launchconf),
+    MinSize=Ref('MinSize'),
+    MaxSize=Ref('MaxSize'),
+    DesiredCapacity=Ref('DesiredCapacity'),
+)
+
 if __name__ == '__main__':
     print template.to_json(indent=4, sort_keys=True)
