@@ -32,34 +32,34 @@ kafka_secgrp = atlas.instance_secgrp(
 zk_secgrp = atlas.instance_secgrp(
     template,
     name="ZooKeeper",
-    SecurityGroupIngress=[
-## not sure if it will work properly or not!    
-    	ec2.SecurityGroupIngress(
-    		"ZKFollowers",
-	    	GroupId=Ref(zk_secgrp),
-    		SourceSecurityGroupId=Ref(zk_secgrp),
-    		FromPort="2888",
-    		ToPort="2888",
-    		IpProtocol="tcp",
-		),
-		ec2.SecurityGroupIngress(
-    		"ZKServers",
-	    	GroupId=Ref(zk_secgrp),
-		    SourceSecurityGroupId=Ref(zk_secgrp),
-		    FromPort="3888",
-		    ToPort="3888",
-		    IpProtocol="tcp",
-		),
-		ec2.SecurityGroupIngress(
-		    "ZKClients",
-    		GroupId=Ref(zk_secgrp),
-    		SourceSecurityGroupId=Ref(kafka_secgrp),
-    		FromPort="2181",
-    		ToPort="2181",
-    		IpProtocol="tcp",
-		),
-    ]
 )
+
+template.add_resource(ec2.SecurityGroupIngress(
+    "ZKFollowers",
+    GroupId=Ref(zk_secgrp),
+    SourceSecurityGroupId=Ref(zk_secgrp),
+    FromPort="2888",
+    ToPort="2888",
+    IpProtocol="tcp",
+))
+
+template.add_resource(ec2.SecurityGroupIngress(
+    "ZKServers",
+    GroupId=Ref(zk_secgrp),
+    SourceSecurityGroupId=Ref(zk_secgrp),
+    FromPort="3888",
+    ToPort="3888",
+    IpProtocol="tcp",
+))
+
+template.add_resource(ec2.SecurityGroupIngress(
+    "ZKClients",
+    GroupId=Ref(zk_secgrp),
+    SourceSecurityGroupId=Ref(kafka_secgrp),
+    FromPort="2181",
+    ToPort="2181",
+    IpProtocol="tcp",
+))
 
 i_meta_data = {}
 atlas.cfn_auth_metadata(i_meta_data)
