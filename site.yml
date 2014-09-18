@@ -1,0 +1,15 @@
+---
+- hosts: zk*
+  sudo: yes
+  vars:
+    zookeeper:
+      version: 3.4.6
+      sha256sum: "01b3938547cd620dc4c93efe07c0360411f4a66962a70500b163b59014046994"
+  
+  pre_tasks:
+    - lineinfile: dest=/etc/hosts state=absent regexp="^127.0.1.1" #If found, zookeeper binds to localhost address
+  roles:
+    - java
+    - { role: zookeeper, myid: 1, when: "ansible_hostname == 'zk1'" }
+    - { role: zookeeper, myid: 2, when: "ansible_hostname == 'zk2'" }
+    - { role: zookeeper, myid: 3, when: "ansible_hostname == 'zk3'" }
