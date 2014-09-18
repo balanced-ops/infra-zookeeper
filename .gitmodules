@@ -1,0 +1,3 @@
+[submodule "infras/global"]
+	path = infras/global
+	url = git@github.com:balanced-cookbooks/infra-global.git
