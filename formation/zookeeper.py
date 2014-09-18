@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 from confu import atlas
 from troposphere import ( Template, FindInMap, GetAtt, Ref, Parameter, Join, Base64, Select, Output, ec2 as ec2 )
   
