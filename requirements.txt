@@ -1,0 +1,2 @@
+git+git://github.com/cloudtools/troposphere.git@8905bd1ba09f9d6f23dfaa28c3d72dade6185c5a#egg=troposphere
+confu >=0.1,<0.2
