@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   project_name = File.basename(Dir.getwd)
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "precise64"
   config.hostmanager.enabled = true # Must install: vagrant plugin install vagrant-hostmanager
 
   config.vm.define project_name do |node|
