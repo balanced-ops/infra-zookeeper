@@ -23,15 +23,18 @@ atlas.mappings(
     accounts=[atlas.poundpay],
 )
 
-kafka_secgrp = atlas.instance_secgrp(
-	template,
-	name="Kafka",
-	## TODO: add Kafka SG roles later
-)
-
 zk_secgrp = atlas.instance_secgrp(
     template,
     name="ZooKeeper",
+    SecurityGroupIngress=[
+        ec2.SecurityGroupRule(
+            'ZKClients',
+            IpProtocol='tcp',
+            FromPort='2181',
+            ToPort='2181',
+            CidrIp=atlas.vpc_cidr,  ##TODO: open 2181 for Clients only.
+        ),
+    ]
 )
 
 template.add_resource(ec2.SecurityGroupIngress(
@@ -49,15 +52,6 @@ template.add_resource(ec2.SecurityGroupIngress(
     SourceSecurityGroupId=Ref(zk_secgrp),
     FromPort="3888",
     ToPort="3888",
-    IpProtocol="tcp",
-))
-
-template.add_resource(ec2.SecurityGroupIngress(
-    "ZKClients",
-    GroupId=Ref(zk_secgrp),
-    SourceSecurityGroupId=Ref(kafka_secgrp),
-    FromPort="2181",
-    ToPort="2181",
     IpProtocol="tcp",
 ))
 
