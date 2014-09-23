@@ -3,7 +3,7 @@
 	url = git@github.com:balanced-cookbooks/infra-global.git
 [submodule "roles/ansible-zookeeper"]
 	path = roles/zookeeper
-	url = https://github.com/kim0/ansible-zookeeper
+	url = https://github.com/balanced-cookbooks/ansible-zookeeper
 [submodule "roles/ansible-role-java"]
 	path = roles/java
 	url = https://github.com/vrischmann/ansible-role-java
