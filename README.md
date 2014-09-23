@@ -24,6 +24,6 @@ ANSIBLE_HOST_KEY_CHECKING=False ansible zk2.vm -i .vagrant/provisioners/ansible/
 
 ```bash
 (infra-vault)$ pypi_username=user pypi_password=pass vagrant provision infra-zookeeper
-(infra-vault)$ vagrant ssh -c ""source ~/infra/bin/activate && cd ~/infra-zookeeper/ && confu pkg clean && confu pkg build"
-(infra-vault)$ confu pkg upload
+(infra-vault)$ vagrant ssh infra-zookeeper -c "source ~/infra/bin/activate && cd ~/infra-zookeeper/ && confu pkg clean && confu pkg build"
+(infra-vault)$ confu pkg pub
 ```
