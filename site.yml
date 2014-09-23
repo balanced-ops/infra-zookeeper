@@ -10,4 +10,5 @@
   pre_tasks:
     - lineinfile: dest=/etc/hosts state=absent regexp="^127.0.1.1" #If found, zookeeper binds to localhost address
   roles:
-    - ansible-zookeeper
+    - zookeeper
+    - ntp

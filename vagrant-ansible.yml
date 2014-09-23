@@ -5,23 +5,44 @@
   pre_tasks:
     - lineinfile: dest=/etc/hosts state=absent regexp="^127.0.1.1" #If found, zookeeper binds to localhost address
 
-- hosts: zk1*
+- hosts: zk1.vm
   vars:
     myid: 1
     java_versions: oracle-jdk7-installer
   roles:
-    - ansible-zookeeper
+    - zookeeper
+    - ntp
 
-- hosts: zk2*
+- hosts: zk2.vm
   vars:
     myid: 2
     java_versions: oracle-jdk7-installer
   roles:
-    - ansible-zookeeper
+    - zookeeper
+    - ntp
 
-- hosts: zk3*
+- hosts: zk3.vm
   vars:
     myid: 3
     java_versions: oracle-jdk7-installer
   roles:
-    - ansible-zookeeper
+    - zookeeper
+    - ntp
+
+- hosts: zk1.vm
+  tasks:
+    - shell: echo create /test WORKS | /opt/zookeeper*/bin/zkCli.sh
+      register: zookeeper_result
+
+    - assert:
+        that:
+          - "'Created /test' in zookeeper_result.stdout"
+
+- hosts: zk3.vm
+  tasks:
+    - shell: echo get /test | /opt/zookeeper*/bin/zkCli.sh
+      register: zookeeper_result
+
+    - assert:
+        that:
+          - "'WORKS' in zookeeper_result.stdout"

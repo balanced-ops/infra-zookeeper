@@ -1,0 +1,40 @@
+---
+
+- name: 'provisioning box'
+
+  hosts: provisioning
+
+  vars:
+    # custom_configuration: value
+    pypi_scheme: https
+    pypi_username: "{{ lookup('env', 'pypi_username') }}"
+    pypi_password: "{{ lookup('env', 'pypi_password') }}"
+    pypi_host: pypi.vandelay.io
+    pypi_index: /balanced/prod/+simple/
+
+  pre_tasks:
+
+    # Most vagrant boxes have outdated repositories
+    - name: APT update
+      sudo: yes
+      apt: update_cache=yes
+
+    - name: Make sure the dependencies are installed
+      sudo: yes
+      apt:
+        pkg: "{{item}}"
+        state: present
+      with_items: ["python-virtualenv", "python-pip", "git", "python-dev"]
+
+  tasks:
+    - name: Create virtualenv
+      shell: virtualenv infra
+
+    - name: Install
+      shell: ~/infra/bin/pip install -r requirements.txt
+      args:
+        chdir: /vagrant
+
+  roles:
+    - '../roles/base'
+    - '.'    # The current directory itself is the role

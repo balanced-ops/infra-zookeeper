@@ -2,8 +2,14 @@
 	path = infras/global
 	url = git@github.com:balanced-cookbooks/infra-global.git
 [submodule "roles/ansible-zookeeper"]
-	path = roles/ansible-zookeeper
+	path = roles/zookeeper
 	url = https://github.com/kim0/ansible-zookeeper
 [submodule "roles/ansible-role-java"]
-	path = roles/ansible-role-java
+	path = roles/java
 	url = https://github.com/vrischmann/ansible-role-java
+[submodule "roles/base"]
+	path = roles/base
+	url = git@github.com:balanced-cookbooks/ansible-base.git
+[submodule "roles/ntp"]
+	path = roles/ntp
+	url = git@github.com:resmo/ansible-role-ntp.git
