@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from confu import atlas
-from troposphere import ( Template, FindInMap, GetAtt, Ref, Parameter, Join, Base64, Select, Output, ec2 as ec2 )
-  
+from troposphere import (Template, FindInMap, GetAtt, Ref, Parameter, Join, Base64, Select, Output, ec2 as ec2 )
+
 template = Template()
 
 template.add_description('ZooKeeper')
@@ -60,10 +60,10 @@ atlas.cfn_auth_metadata(i_meta_data)
 atlas.cfn_init_metadata(i_meta_data)
 
 i_launchconf = atlas.instance_launchconf(
-   	template,
-   	"ZK",
-   	Metadata=i_meta_data,
-   	SecurityGroups=[Ref(zk_secgrp)],
+    template,
+    "ZK",
+    Metadata=i_meta_data,
+    SecurityGroups=[Ref(zk_secgrp)],
 )
 
 scaling_group = atlas.instance_scalegrp(
