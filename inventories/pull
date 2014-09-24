@@ -9,6 +9,7 @@ inventory = ansible.AWSLocalInventory(
     group_tags=[
        'aws:cloudformation:stack-name',
        'confu:infra-silo',
+       'ec2_vpc_id',
        ('confu:infra-env', 'env-{value}', 'infra_env'),
        ('confu:app-env', 'env-{value}', 'app_env'),
        ('confu:roles', lambda value: value.split(','))
