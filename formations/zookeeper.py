@@ -59,9 +59,16 @@ i_meta_data = {}
 atlas.cfn_auth_metadata(i_meta_data)
 atlas.cfn_init_metadata(i_meta_data)
 
+i_user_data = Join(
+    '',
+    atlas.user_data('ZKLaunchConfiguration') +
+    atlas.user_data_signal_on_scaling_failure(),
+)
+
 i_launchconf = atlas.instance_launchconf(
     template,
     "ZK",
+    UserData=Base64(i_user_data),
     Metadata=i_meta_data,
     SecurityGroups=[Ref(zk_secgrp)],
 )
