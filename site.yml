@@ -1,6 +1,9 @@
 ---
 - hosts: zookeeper
   sudo: yes
+  vars_files:
+    - "infras/global/vars/{{ aws_account }}.yml"
+    - "infras/global/vars/{{ aws_account }}_{{ aws_region }}.yml"
   vars:
     #zookeeper:
     #  version: 3.4.6
@@ -10,5 +13,6 @@
   pre_tasks:
     - lineinfile: dest=/etc/hosts state=absent regexp="^127.0.1.1" #If found, zookeeper binds to localhost address
   roles:
-    - zookeeper
+    - base
     - ntp
+    - zookeeper

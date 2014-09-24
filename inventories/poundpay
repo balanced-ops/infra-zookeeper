@@ -1,0 +1,24 @@
+#!/usr/bin/env python
+
+from confu import aws, ansible
+
+
+aws.cxn.activate(profile_name='poundpay', default_region='us-east-1')
+
+inventory = ansible.AWSRemoteInventory(
+    instances=(
+        aws.instances()
+        .regions('us-east-1')
+        .filter(('tag:confu:infra-silo', 'zookeeper'))
+        .filter(('instance-state-name', 'running'))
+    ),
+    group_tags=[
+       'aws:cloudformation:stack-name',
+       'confu:infra-silo',
+       ('confu:infra-env', 'env-{value}', 'infra_env'),
+       ('confu:roles', lambda value: value.split(','))
+    ],
+)
+
+if __name__ == '__main__':
+    inventory.cli()
