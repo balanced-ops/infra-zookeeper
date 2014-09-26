@@ -13,3 +13,6 @@
 [submodule "roles/ntp"]
 	path = roles/ntp
 	url = git@github.com:resmo/ansible-role-ntp.git
+[submodule "roles/newrelic"]
+	path = roles/newrelic
+	url = https://github.com/sivel/ansible-newrelic.git

@@ -15,4 +15,5 @@
   roles:
     - base
     - ntp
+    - newrelic
     - zookeeper
