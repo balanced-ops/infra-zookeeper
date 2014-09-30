@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 from confu import atlas
-from troposphere import (Template, FindInMap, GetAtt, Ref, Parameter, Join, Base64, Select, Output, ec2 as ec2 )
+from troposphere import (
+    Template, FindInMap, GetAtt, Ref, Parameter, Join, Base64, Select, Output,
+    ec2 as ec2
+)
 
 template = Template()
 
@@ -81,6 +84,7 @@ scaling_group = atlas.instance_scalegrp(
     MaxSize=Ref('MaxSize'),
     DesiredCapacity=Ref('DesiredCapacity'),
 )
+
 
 if __name__ == '__main__':
     print template.to_json(indent=4, sort_keys=True)
