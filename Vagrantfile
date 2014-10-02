@@ -30,19 +30,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   end
 
-  config.vm.define 'zk1.vm' do |node|
+  config.vm.define 'zk1' do |node|
     node.vm.network :private_network, :ip => '10.20.1.11'
-    config.vm.host_name = 'zk1.vm'
+    config.vm.host_name = 'zk1'
   end
 
-  config.vm.define 'zk2.vm' do |node|
+  config.vm.define 'zk2' do |node|
     node.vm.network :private_network, :ip => '10.20.1.12'
-    config.vm.host_name = 'zk2.vm'
+    config.vm.host_name = 'zk2'
   end
 
-  config.vm.define 'zk3.vm' do |node|
+  config.vm.define 'zk3' do |node|
     node.vm.network :private_network, :ip => '10.20.1.13'
-    config.vm.host_name = 'zk3.vm'
+    config.vm.host_name = 'zk3'
   end
 
   config.vm.provision :ansible do |ansible|
@@ -53,7 +53,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     }
     ansible.host_key_checking = false
     ansible.groups = {
-      'zookeeper' => ['zk1.vm', 'zk2.vm', 'zk3.vm'],
+      'zookeeper' => ['zk1', 'zk2', 'zk3'],
     }
 
     # Debugging helpers
